@@ -1,0 +1,86 @@
+import math
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+
+s = [4,9,7,3,2,0,6,5]
+l = [1/math.sqrt(2),1/math.sqrt(2)]
+h = [-1/math.sqrt(2),1/math.sqrt(2)]
+
+def convp(s, filter):
+    result = np.convolve(s, filter)[1::2]
+    return result
+
+def frwt(s, l, h):
+    cA = convp(s, l)
+    cD = convp(s, h)
+    return cA, cD
+
+def frwt2(s, l, h):
+    L = []
+    H = []
+    for row in s:
+        cA, cD = frwt(row, l, h)
+        L.append(cA)
+        H.append(cD)
+    return L, H
+
+def frwt_2D(s, l, h):
+    L, H = frwt2(s, l, h)
+
+    LT = np.transpose(L)
+    HT = np.transpose(H)
+
+    LL, LH = frwt2(LT, l, h)
+    HL, HH = frwt2(HT, l, h)
+
+    return np.array(LL), np.array(LH), np.array(HL), np.array(HH)
+
+cA, cD = frwt(s, l, h)
+print(cA)
+print(cD)
+
+LL, LH, HL, HH = frwt_2D(s, l, h)
+print(LL)
+print(LH)
+print(HL)
+print(HH)
+img = cv2.imread( 'cameraman.png', 0)
+
+
+
+cA , cH , cV , cD = frwt_2D(img,l,h)
+
+fig, axs = plt.subplots(3, 3, figsize=(10, 10))
+axs[0, 0].imshow(cA, cmap='gray')
+axs[0, 0].set_title('Approximation Level 1')
+axs[0, 1].imshow(cH, cmap='gray')
+axs[0, 1].set_title('Horizontal Detail Level 1')
+axs[1, 0].imshow(cV, cmap='gray')
+axs[1, 0].set_title('Vertical Detail Level 1')
+axs[1, 1].imshow(cD, cmap='gray')
+axs[1, 1].set_title('Diagonal Detail Level 1')
+
+cA1, cH1, cV1, cD1 = frwt_2D(cA, l, h)  # Compute the next level of coefficients using cA
+
+axs[1, 2].imshow(cA1, cmap='gray')
+axs[1, 2].set_title('Approximation Level 2')
+axs[2, 0].imshow(cH1, cmap='gray')
+axs[2, 0].set_title('Horizontal Detail Level 2')
+axs[2, 1].imshow(cV1, cmap='gray')
+axs[2, 1].set_title('Vertical Detail Level 2')
+axs[2, 2].imshow(cD1, cmap='gray')
+axs[2, 2].set_title('Diagonal Detail Level 2')
+
+cA2, cH2, cV2, cD2 = frwt_2D(cA1, l, h)  # Compute the next level of coefficients using cA1
+
+axs[2, 2].imshow(cA1, cmap='gray')
+axs[2, 2].set_title('Approximation Level 3')
+axs[2, 3].set_title('Horizontal Detail Level 3')
+axs[3, 1].imshow(cV1, cmap='gray')
+axs[3, 1].set_title('Vertical Detail Level 3')
+axs[3, 2].imshow(cD1, cmap='gray')
+axs[3, 2].set_title('Diagonal Detail Level 3')
+
+plt.show()
+
