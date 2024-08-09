@@ -1,0 +1,54 @@
+Algorithm 1 2D Fast Reverse Wavelet Transform
+ 1: 2D Fast Reverse Wavelet Transform
+ 2: Import libraries:
+ 3: Import necessary libraries:
+ 4: • math
+ 5: • numpy (as np)
+ 6: • cv2
+ 7: • matplotlib.pyplot (as plt).
+ 8: Define inputs and filters:
+ 9: Define the input signal s and the low-pass filter l and
+ high-pass filter h.
+ 10: Function to Perform Convolution:
+ 11: Function CONVP(s, filter)
+ 12: • Initialize result.
+ 13: • Perform convolution of s with the filter and downsample.
+ 14: • Return result
+ 15: End Function
+ 16: Function for 1D FRWT:
+ 17: Function FRWT(s, l, h)
+ 18: • Call CONVP to compute cA (approximation) and cD
+ (detail).
+ 19: • Return cA and cD
+ 20: End Function
+ 21: Function to Apply 1D FRWT to a 2D Signal:
+ 22: Function FRWT2(s, l, h)
+ 23: • Initialize L and H.
+ 24: for each row in the 2D signal do
+ 25:
+ 26:
+ • Apply FRWT to the row and obtain cA and cD.
+ • Append cA to L and cD to H.
+ 27: end for
+ 28: Return L and H
+ 29: End Function
+ 30: Function for 2D FRWT:
+ 31: Function FRWT 2D(s, l, h)
+ 32: • Call FRWT2 to obtain L and H.
+ 33: • Transpose L and H to get LT and HT.
+ 34: • Apply FRWT2 to LT and HT to obtain LL, LH, HL,
+ and HH.
+ 35: Return LL, LH, HL, and HH
+ 36: End Function
+ 37: Compute 1D FRWT for Input Signal:
+ 38: Compute the 1D FRWT for the 1D signal s and print the
+ cA and cD.
+ 39: Image Processing:
+ 40: Read an image using OpenCV and apply the 2D FRWT
+ using FRWT 2D.
+ 41: Print LL, LH, HL, HH.
+ 42: Image Reconstruction:
+ 43: Duplicate and resize coefficients. Arrange for image re
+construction.
+ 44: Display Result:
+ 45: Display the final reconstructed image using Matplotlib.
