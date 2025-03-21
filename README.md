@@ -7,10 +7,7 @@ This project implements a **Single Phase Compact DC-AC Power Converter** designe
 - [Project Overview](#project-overview)
 - [Tech Stack](#tech-stack)
 - [Installation Instructions](#installation-instructions)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+
 
 ## Project Overview
 
